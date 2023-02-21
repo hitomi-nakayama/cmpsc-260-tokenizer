@@ -1,3 +1,3 @@
 pub mod text;
 
-pub use text::SourceReader;
+pub use text::TokenReader;
