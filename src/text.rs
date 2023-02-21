@@ -14,7 +14,7 @@ struct LineResult {
 
 impl<'a> SourceReader<'a> {
     fn new<T: BufRead + 'a>(line_reader: T) -> Self {
-        let mut reader = SourceReader {
+        let reader = SourceReader {
             line_reader: Box::new(line_reader),
             line_number: 0
         };
@@ -50,7 +50,7 @@ pub struct TokenReader<'a> {
 
 impl<'a> TokenReader<'a> {
     pub fn new(source_reader: SourceReader<'a>, special_tokens: &[&str]) -> Self {
-        let special_tokens: Vec<_> = special_tokens.iter().map(|x| (*x).to_owned()).collect();;
+        let special_tokens: Vec<_> = special_tokens.iter().map(|x| (*x).to_owned()).collect();
         let mut tokens = TokenReader {
             out_of_lines: false,
             last_read_line_number: 0,
