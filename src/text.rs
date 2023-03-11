@@ -231,6 +231,13 @@ mod tests {
     }
 
     #[test]
+    fn tokenize_line_do_not_split_dash() {
+        let special = vec![];
+        let tokens = tokenize_line("-1", &special);
+        assert_eq!(tokens, vec!["-1"]);
+    }
+
+    #[test]
     fn source_reader() {
         let source = "a b c
 d e f
