@@ -129,7 +129,12 @@ enum TokenizerState {
     InSpecial(usize)
 }
 
-/** Read the next non-empty line from the reader and tokenize it. */
+/** Read the next non-empty line from the reader and tokenize it.
+ *
+ * Any special token made of more than one character must have all of its
+ * prefix characters in the special list. For example, if the special list
+ * contains "->", then it must contain "-" as well.
+*/
 fn tokenize_line(input: &str, special: &[&str]) -> Vec<String> {
     use TokenizerState::*;
 
@@ -235,6 +240,17 @@ mod tests {
         let special = vec![];
         let tokens = tokenize_line("-1", &special);
         assert_eq!(tokens, vec!["-1"]);
+    }
+
+    /**
+     * Test parsing when a string matches both a special token and also a
+     * prefix of another special token.
+     */
+    #[test]
+    fn tokenize_line_matches_special_prefix() {
+        let special = vec!["-", "->"];
+        let tokens = tokenize_line("-1", &special);
+        assert_eq!(tokens, vec!["-", "1"]);
     }
 
     #[test]
